@@ -5,6 +5,7 @@
 
 ## project technology:
 - node and express js
+- mysql
 - joi
 - prisma
 - winston
