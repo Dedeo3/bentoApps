@@ -24,6 +24,8 @@ response failed:
 ```
 
 ## Login
+Endpoint: POST localhost:8181/login
+Headers:
 - Authorization : token
 request body:
 ```json
@@ -56,8 +58,7 @@ Headers:
 {
   "idAccount": 1,
   "name": "username / optional",
-  "paymentId": 1,
-  "balance": 1000000.00
+  "paymentId": 1
 }
 ```
 
