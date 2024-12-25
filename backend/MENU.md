@@ -101,3 +101,44 @@ response failed:
   "message": "menu not found"
 }
 ```
+
+## category
+Headers:
+- Authorization : token
+  endpoint: POST localhost:8181/categoryMenu
+  request body:
+```json
+{
+  "keyword": "blabla"
+}
+```
+
+response success:
+
+```json
+{
+  "message": "success get menu",
+  "data": [
+    {"name": "menu name",
+      "category_id": 1,
+      "menu_id": 1,
+      "price": 100000.00,
+      "description": "this is description",
+      "stock": 10},
+    {
+      "name": "menu name",
+      "category_id": 2,
+      "menu_id": 1,
+      "price": 100000.00,
+      "description": "this is description",
+      "stock": 10
+    }
+  ]
+}
+```
+response failed:
+```json
+{
+  "message": "menu not found"
+}
+```
