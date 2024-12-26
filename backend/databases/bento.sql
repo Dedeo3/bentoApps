@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 25, 2024 at 08:37 AM
+-- Generation Time: Dec 26, 2024 at 11:21 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -29,9 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `account` (
   `account_id` int(11) NOT NULL,
-  `payment_id` int(11) DEFAULT NULL,
+  `payment_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `balance` decimal(10,2) NOT NULL
+  `balance` decimal(10,2) NOT NULL,
+  `password` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -54,18 +55,6 @@ INSERT INTO `category` (`category_id`, `name`) VALUES
 (2, 'Milk based'),
 (3, 'Coffee Based'),
 (4, 'Non Coffee');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `login`
---
-
-CREATE TABLE `login` (
-  `account_id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -138,8 +127,7 @@ CREATE TABLE `order_item` (
 --
 
 CREATE TABLE `wallet` (
-  `payment_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `payment_id` int(11) DEFAULT NULL,
   `balance` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -151,21 +139,14 @@ CREATE TABLE `wallet` (
 -- Indexes for table `account`
 --
 ALTER TABLE `account`
-  ADD PRIMARY KEY (`account_id`),
-  ADD KEY `payment_id` (`payment_id`);
+  ADD PRIMARY KEY (`account_id`,`payment_id`),
+  ADD UNIQUE KEY `idx_payment_id` (`payment_id`);
 
 --
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`category_id`);
-
---
--- Indexes for table `login`
---
-ALTER TABLE `login`
-  ADD PRIMARY KEY (`account_id`),
-  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Indexes for table `menu`
@@ -195,7 +176,8 @@ ALTER TABLE `order_item`
 -- Indexes for table `wallet`
 --
 ALTER TABLE `wallet`
-  ADD PRIMARY KEY (`payment_id`);
+  ADD UNIQUE KEY `unique_payment_id` (`payment_id`),
+  ADD UNIQUE KEY `unique_payment_id2` (`payment_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -205,7 +187,7 @@ ALTER TABLE `wallet`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -232,26 +214,8 @@ ALTER TABLE `order_item`
   MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `wallet`
---
-ALTER TABLE `wallet`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `account`
---
-ALTER TABLE `account`
-  ADD CONSTRAINT `account_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `wallet` (`payment_id`);
-
---
--- Constraints for table `login`
---
-ALTER TABLE `login`
-  ADD CONSTRAINT `login_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`);
 
 --
 -- Constraints for table `menu`
@@ -273,6 +237,12 @@ ALTER TABLE `order_item`
   ADD CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`),
   ADD CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`),
   ADD CONSTRAINT `order_item_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`);
+
+--
+-- Constraints for table `wallet`
+--
+ALTER TABLE `wallet`
+  ADD CONSTRAINT `fk_wallet_payment` FOREIGN KEY (`payment_id`) REFERENCES `account` (`payment_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
