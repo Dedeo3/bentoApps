@@ -3,16 +3,19 @@
 ## Register
 Endpoint: POST localhost:8181/registerAccount
 request body:
+
 ```json
 {
   "username": "username",
-  "password": "qwmoaweoawrfejo"
+  "password": "qwmoaweoawrfejo",
+  "payment_id": 1,
+  "balance": 100000.00
 }
 ```
 response success:
 ```json
 {
-  "message": "register is successfully",
+  "message": "Account created successfully",
   "accountName": "username"
 }
 ```
@@ -40,36 +43,6 @@ response success:
 {
   "accountName": "username",
   "token": "blablabla"
-}
-```
-response failed:
-```json
-{
-  "message": "login failed"
-}
-```
-
-## profile
-Endpoint: PATCH localhost:8181/profile
-Headers:
-- Authorization : token
-  request body:
-```json
-{
-  "idAccount": 1,
-  "name": "username / optional",
-  "paymentId": 1
-}
-```
-
-response success:
-```json
-{
-  "message": "success complete your account",
-  "data": {
-    "paymentId": 1,
-    "name": "username / optional"
-  }
 }
 ```
 response failed:
