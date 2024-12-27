@@ -1,7 +1,7 @@
 # This is API for account management
 
 ## Register
-Endpoint: POST localhost:8181/registerAccount
+Endpoint: POST localhost:8181/account/registerAccount
 request body:
 
 ```json
@@ -23,6 +23,13 @@ response failed:
 ```json
 {
   "message": "failed to register"
+}
+```
+
+response failed user already exist:
+```json
+{
+  "message":"user already exists"
 }
 ```
 
