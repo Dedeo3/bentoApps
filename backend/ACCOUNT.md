@@ -34,7 +34,7 @@ response failed user already exist:
 ```
 
 ## Login
-Endpoint: POST localhost:8181/login
+Endpoint: POST localhost:8181/account//login
 Headers:
 - Authorization : token
 request body:
@@ -60,7 +60,7 @@ response failed:
 ```
 
 ## logout
-Endpoint: DELETE localhost:8181/logout
+Endpoint: DELETE localhost:8181/account/logout
 Headers:
 - Authorization : token
   response success:
