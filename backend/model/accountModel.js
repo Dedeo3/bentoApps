@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const db = require('../databases/config');
 const {v4: uuidv4} = require("uuid");
-let session;
+let session=[];
 
 const register = (data) => {
     const {username, password, payment_id, balance} = data;
@@ -90,7 +90,11 @@ const login = async (data) => {
                                 username: username,
                                 token: uuid,
                             })
-                            session= uuid
+                            session.push({
+                                username: username,
+                                token: uuid,
+                            })
+                            return session
                         }else if (!isMatch) {
                             resolve({
                                 message: 'login failed'
@@ -110,4 +114,17 @@ const login = async (data) => {
 )
 }
 
-module.exports = {register, login};
+const logout = async (username) => {
+    try {
+        console.log("session awalnya",session)
+        session.filter(user => user.id !== username)
+        return {
+            request: 'OK',
+        }
+       return session
+    }
+    catch (error) {
+        throw error;
+    }
+}
+module.exports = {register, login, logout};
