@@ -7,7 +7,7 @@ app.use(handleMiddleware())
 
 const account=require('./routes/account')
 
-app.use('/registerAccount',account)
+app.use('/account',account)
 app.listen(8181,()=>{
     console.log("Server started on port 8181")
 })
