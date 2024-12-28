@@ -123,7 +123,7 @@ const login = async (data) => {
 const logout = async (token) => {
     return new Promise((resolve, reject) => {
         logoutList.push({
-            token: `Bearer ${token}`,
+            token: `${token}`,
         })
         resolve({
             message: 'OK',
