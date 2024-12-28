@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 const {secret} = require("./jwt");
 const logoutList= require( "../util/logToken");
+
 const authenticateJWT = (req, res, next) => {
+    console.log(logoutList);
     const authHeader = req.headers.authorization;
 
     if (authHeader) {
@@ -9,9 +11,11 @@ const authenticateJWT = (req, res, next) => {
 
         jwt.verify(token, secret, (err, user) => {
             if (err) {
-                return res.status(403).send({ message: "Invalid token",});
-            }else if (logoutList.filter(list=> list.token ===token)){
-                return res.status(403).send({ message: "you are already log out" });
+                return res.status(403).send({ message: "Invalid token"});
+            }
+            console.log(`${logoutList.some(list=> list.token ===token)}`)
+            if (logoutList.some(list=> list.token ===token)){
+                return res.status(403).send({ message: "you are already log out"})
             }
             req.user = user;
             next();
