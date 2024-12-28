@@ -1,7 +1,7 @@
 # Api for handle menu
 
 ## Menu
-endpoint: GET localhost:8181/listMenu
+endpoint: GET localhost:8181/menu/listMenu
 Headers:
 - Authorization : token
 
@@ -31,7 +31,7 @@ response success:
 ## detail menu
 Headers:
 - Authorization : token
-endpoint: POST localhost:8181/selectedMenu
+endpoint: POST localhost:8181/menu/selectedMenu
   request body:
 ```json
 {
@@ -64,7 +64,7 @@ response failed:
 ## search menu
 Headers:
 - Authorization : token
-  endpoint: POST localhost:8181/search
+  endpoint: POST localhost:8181/menu/search
   request body:
 ```json
 {
@@ -105,7 +105,7 @@ response failed:
 ## category
 Headers:
 - Authorization : token
-  endpoint: POST localhost:8181/categoryMenu
+  endpoint: POST localhost:8181/menu/categoryMenu
   request body:
 ```json
 {
