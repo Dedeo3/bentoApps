@@ -14,5 +14,19 @@ const listMenu= async ()=>{
         })
     })
 }
+const selectedMenu= async (data)=>{
+    return new Promise((resolve,reject)=>{
+        const query= `select * from menu where menu_id= ?`;
 
-module.exports = {listMenu};
+        db.query(query,[data], (err,res) => {
+            if(err){
+                reject(err);
+            }
+            resolve({message: "get menu is successfully",
+                data: res
+            })
+        })
+    })
+}
+
+module.exports = {listMenu,selectedMenu};
