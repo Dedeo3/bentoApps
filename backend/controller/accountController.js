@@ -22,7 +22,7 @@ const login= async (req,res)=>{
 
 const logout= async (req,res)=>{
     try {
-        const result = await model.logout(req.body);
+        const result = await model.logout(req.headers['authorization']);
         res.status(200).json(result);
     }catch (err){
         console.error(err);
