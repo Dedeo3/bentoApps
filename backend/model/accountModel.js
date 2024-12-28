@@ -1,7 +1,11 @@
 const bcrypt = require('bcrypt');
 const db = require('../databases/config');
-const {v4: uuidv4} = require("uuid");
-let session=[];
+require('dotenv').config();
+const jwtConfig = require('../util/jwt');
+const jwt= require("jsonwebtoken");
+const logoutList= require('../util/logToken');
+
+
 
 const register = (data) => {
     const {username, password, payment_id, balance} = data;
@@ -85,16 +89,18 @@ const login = async (data) => {
                         if (err) {
                             reject(err);
                         }else if (isMatch) {
-                            const uuid=uuidv4()
+                            let token= jwt.sign({
+                                username: username
+                            },jwtConfig.secret,
+                                {
+                                    algorithm: jwtConfig.algorithm,
+                                    expiresIn: "1h"
+                                })
                             resolve({
                                 username: username,
-                                token: uuid,
+                                token: `Bearer ${token}`,
                             })
-                            session.push({
-                                username: username,
-                                token: uuid,
-                            })
-                            return session
+
                         }else if (!isMatch) {
                             resolve({
                                 message: 'login failed'
@@ -114,23 +120,16 @@ const login = async (data) => {
 )
 }
 
-const logout = async (username) => {
-    try {
-        console.log("session awalnya",session)
-        let userFound= session.filter(user => user.username === username)
-        if (session.length === 0) {
-            return {
-                message: 'session not yet created'
-            }
-        } else if (userFound){
-            session.filter(user => user.id !== username)
-            return {
-                request: 'OK',
-            }
-        }
-    }
-    catch (error) {
-        throw error;
-    }
-}
+const logout = async (token) => {
+    return new Promise((resolve, reject) => {
+        logoutList.push({
+            token: `Bearer ${token}`,
+        })
+        resolve({
+            message: 'OK',
+        })
+        return logoutList
+    })
+
+};
 module.exports = {register, login, logout};
