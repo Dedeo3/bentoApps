@@ -117,11 +117,17 @@ const login = async (data) => {
 const logout = async (username) => {
     try {
         console.log("session awalnya",session)
-        session.filter(user => user.id !== username)
-        return {
-            request: 'OK',
+        let userFound= session.filter(user => user.username === username)
+        if (session.length === 0) {
+            return {
+                message: 'session not yet created'
+            }
+        } else if (userFound){
+            session.filter(user => user.id !== username)
+            return {
+                request: 'OK',
+            }
         }
-       return session
     }
     catch (error) {
         throw error;
