@@ -8,7 +8,6 @@ request body:
 {
   "username": "username",
   "password": "qwmoaweoawrfejo",
-  "payment_id": 1,
   "balance": 100000.00
 }
 ```
