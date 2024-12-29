@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 29, 2024 at 09:24 AM
+-- Generation Time: Dec 29, 2024 at 09:58 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -44,7 +44,7 @@ CREATE TABLE `account` (
 CREATE TABLE `accountuser` (
   `account_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `balance` decimal(10,2) NOT NULL,
+  `initial_balance` decimal(10,2) NOT NULL,
   `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -52,8 +52,9 @@ CREATE TABLE `accountuser` (
 -- Dumping data for table `accountuser`
 --
 
-INSERT INTO `accountuser` (`account_id`, `name`, `balance`, `password`) VALUES
-(1, 'nando', 100000.00, '$2b$10$.2eGOR70a7g7a19Z3aqVYuPTFO6qnQFCqOaJJQ6KtNqAG7CLT7cou');
+INSERT INTO `accountuser` (`account_id`, `name`, `initial_balance`, `password`) VALUES
+(1, 'nando', 100000.00, '$2b$10$.2eGOR70a7g7a19Z3aqVYuPTFO6qnQFCqOaJJQ6KtNqAG7CLT7cou'),
+(2, 'ar', 100000.00, '$2b$10$AaAOmxOpWnOKwnvs20joAelghUbGTel3fyKuvkra49eEYNUGnqZmS');
 
 -- --------------------------------------------------------
 
@@ -157,7 +158,8 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`wallet_id`, `balance`, `username`) VALUES
-(1, 100000.00, 'nando');
+(1, 110000.00, 'nando'),
+(2, 115000.00, 'ar');
 
 -- --------------------------------------------------------
 
@@ -245,7 +247,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT for table `accountuser`
 --
 ALTER TABLE `accountuser`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -275,7 +277,7 @@ ALTER TABLE `order_item`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
