@@ -10,9 +10,9 @@ const logoutList= require('../util/logToken');
 const register = (data) => {
     const {username, password, payment_id, balance} = data;
 
-    const userAlreadyExists = `SELECT * FROM account WHERE name = ?`;
-    const queryAccount = `INSERT INTO account (name, password, payment_id, balance) VALUES (?, ?, ?, ?)`;
-    const queryWallet = `INSERT INTO wallet (payment_id, balance) VALUES (?, ?)`;
+    const userAlreadyExists = `SELECT * FROM accountuser WHERE name = ?`;
+    const queryAccount = `INSERT INTO accountuser (name, password, balance) VALUES (?, ?, ?)`;
+    const queryWallet = `INSERT INTO payment (username, balance) VALUES (?, ?)`;
 
     return new Promise((resolve, reject) => {
         db.query(userAlreadyExists, [username], async (err, res) => {
@@ -28,8 +28,8 @@ const register = (data) => {
 
                 const passwordHash = await bcrypt.hash(password, 10);
 
-                const valuesAccount = [username, passwordHash, payment_id, balance];
-                const valuesWallet = [payment_id, balance];
+                const valuesAccount = [username, passwordHash, balance];
+                const valuesWallet = [username, balance];
 
                 // Mulai transaksi
                 db.beginTransaction((err) => {
@@ -76,7 +76,7 @@ const register = (data) => {
 
 const login = async (data) => {
     const {username, password} = data;
-    const login = `select name, password from account WHERE name = ?`;
+    const login = `select name, password from accountuser WHERE name = ?`;
 
     return new Promise((resolve, reject) => {
             db.query(login, [username], (err, result) => {
@@ -130,6 +130,5 @@ const logout = async (token) => {
         })
         return logoutList
     })
-
 };
 module.exports = {register, login, logout};
