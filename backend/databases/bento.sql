@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 27, 2024 at 07:47 PM
+-- Generation Time: Dec 29, 2024 at 09:24 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -34,6 +34,26 @@ CREATE TABLE `account` (
   `balance` decimal(10,2) NOT NULL,
   `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `accountuser`
+--
+
+CREATE TABLE `accountuser` (
+  `account_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `balance` decimal(10,2) NOT NULL,
+  `password` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `accountuser`
+--
+
+INSERT INTO `accountuser` (`account_id`, `name`, `balance`, `password`) VALUES
+(1, 'nando', 100000.00, '$2b$10$.2eGOR70a7g7a19Z3aqVYuPTFO6qnQFCqOaJJQ6KtNqAG7CLT7cou');
 
 -- --------------------------------------------------------
 
@@ -123,12 +143,32 @@ CREATE TABLE `order_item` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `wallet_id` int(11) NOT NULL,
+  `balance` decimal(10,2) NOT NULL,
+  `username` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`wallet_id`, `balance`, `username`) VALUES
+(1, 100000.00, 'nando');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `wallet`
 --
 
 CREATE TABLE `wallet` (
   `payment_id` int(11) DEFAULT NULL,
-  `balance` decimal(10,2) NOT NULL
+  `balance` decimal(10,2) NOT NULL,
+  `username` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -141,6 +181,12 @@ CREATE TABLE `wallet` (
 ALTER TABLE `account`
   ADD PRIMARY KEY (`account_id`,`payment_id`),
   ADD UNIQUE KEY `idx_payment_id` (`payment_id`);
+
+--
+-- Indexes for table `accountuser`
+--
+ALTER TABLE `accountuser`
+  ADD PRIMARY KEY (`account_id`);
 
 --
 -- Indexes for table `category`
@@ -173,6 +219,12 @@ ALTER TABLE `order_item`
   ADD KEY `order_id` (`order_id`);
 
 --
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`wallet_id`);
+
+--
 -- Indexes for table `wallet`
 --
 ALTER TABLE `wallet`
@@ -187,7 +239,13 @@ ALTER TABLE `wallet`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `accountuser`
+--
+ALTER TABLE `accountuser`
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -214,6 +272,12 @@ ALTER TABLE `order_item`
   MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -237,12 +301,6 @@ ALTER TABLE `order_item`
   ADD CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`),
   ADD CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`),
   ADD CONSTRAINT `order_item_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`);
-
---
--- Constraints for table `wallet`
---
-ALTER TABLE `wallet`
-  ADD CONSTRAINT `fk_wallet_payment` FOREIGN KEY (`payment_id`) REFERENCES `account` (`payment_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
