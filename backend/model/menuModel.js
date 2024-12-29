@@ -29,4 +29,21 @@ const selectedMenu= async (data)=>{
     })
 }
 
-module.exports = {listMenu,selectedMenu};
+const search= async (data)=>{
+    return new Promise((resolve,reject)=>{
+        const query= `select * from menu where name like ?`;
+        const keyword= [`%${data}%`]
+        console.log(keyword);
+        db.query(query,keyword,(err,res) => {
+            if (err){
+                reject(err);
+            }
+            resolve({
+                message: `success get menu`,
+                data: res
+            });
+        })
+    })
+}
+
+module.exports = {listMenu,selectedMenu,search};

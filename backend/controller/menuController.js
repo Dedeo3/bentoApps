@@ -17,5 +17,15 @@ const selectedMenu= async (req, res) => {
         res.status(500).json({ message: "Something went wrong" });
     }
 }
+const search=async (req, res) => {
+    const {keyword} = req.body;
+    try {
+        const result= await models.search(keyword)
+        res.status(200).json(result)
+    }
+    catch (err){
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
 
-module.exports = {listMenu,selectedMenu}
+module.exports = {listMenu,selectedMenu,search}
