@@ -7,7 +7,7 @@ Headers:
   request body:
 ```json
 {
-  "payment_id": 1,
+  "username": 1,
   "balance": 100000.00
 }
 ```
@@ -15,7 +15,7 @@ Headers:
 response success:
 ```json
 {
-  "message": "deposit is successfully",
+  "message": "Deposit is successfully added to balance",
   "balance": 100000.00
 }
 ```
