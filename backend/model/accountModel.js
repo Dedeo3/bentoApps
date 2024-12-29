@@ -8,10 +8,10 @@ const logoutList= require('../util/logToken');
 
 
 const register = (data) => {
-    const {username, password, payment_id, balance} = data;
+    const {username, password, balance} = data;
 
     const userAlreadyExists = `SELECT * FROM accountuser WHERE name = ?`;
-    const queryAccount = `INSERT INTO accountuser (name, password, balance) VALUES (?, ?, ?)`;
+    const queryAccount = `INSERT INTO accountuser (name, password, initial_balance) VALUES (?, ?, ?)`;
     const queryWallet = `INSERT INTO payment (username, balance) VALUES (?, ?)`;
 
     return new Promise((resolve, reject) => {
