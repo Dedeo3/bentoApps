@@ -15,3 +15,7 @@
 - npm install
 <p>Command above is included all dependency to be install
 </p>
+
+how to start:
+- cd to backend directory
+- npm run server
