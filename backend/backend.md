@@ -5,12 +5,12 @@
 
 ## project technology:
 - node and express js
-- joi
-- prisma
-- winston
+- dotenv
+- mysql
+- jsonwebtoken
 - bcrypt
-- uuid
-
+- nodemon
+- cors
 ## Before start, install all dependency:
 - npm install
 <p>Command above is included all dependency to be install
