@@ -28,4 +28,15 @@ const search=async (req, res) => {
     }
 }
 
-module.exports = {listMenu,selectedMenu,search}
+const category=async (req, res) => {
+    const {keyword} = req.body;
+    try {
+        const result= await models.category(keyword)
+        res.status(200).json(result)
+    }
+    catch (err){
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
+
+module.exports = {listMenu,selectedMenu,search,category}
