@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 29, 2024 at 09:58 AM
+-- Generation Time: Dec 30, 2024 at 07:15 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -53,8 +53,7 @@ CREATE TABLE `accountuser` (
 --
 
 INSERT INTO `accountuser` (`account_id`, `name`, `initial_balance`, `password`) VALUES
-(1, 'nando', 100000.00, '$2b$10$.2eGOR70a7g7a19Z3aqVYuPTFO6qnQFCqOaJJQ6KtNqAG7CLT7cou'),
-(2, 'ar', 100000.00, '$2b$10$AaAOmxOpWnOKwnvs20joAelghUbGTel3fyKuvkra49eEYNUGnqZmS');
+(3, 'ar', 100000.00, '$2b$10$nVzV0cZ.uVmmc8DI4/3EV.uEllQuW0uf4XkSnMNRyTj3XX1T27/cm');
 
 -- --------------------------------------------------------
 
@@ -127,6 +126,31 @@ CREATE TABLE `order` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orderitem`
+--
+
+CREATE TABLE `orderitem` (
+  `order_item_id` int(11) NOT NULL,
+  `menu_id` int(11) DEFAULT NULL,
+  `account_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `start_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `status` enum('in progress','completed') DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orderitem`
+--
+
+INSERT INTO `orderitem` (`order_item_id`, `menu_id`, `account_id`, `order_id`, `start_time`, `end_time`, `quantity`, `status`, `price`) VALUES
+(5, 1, 3, NULL, '2024-12-30 10:00:00', NULL, 2, 'in progress', 10000.00);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `order_item`
 --
 
@@ -158,8 +182,28 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`wallet_id`, `balance`, `username`) VALUES
-(1, 110000.00, 'nando'),
-(2, 115000.00, 'ar');
+(3, 90000.00, 'ar');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `totalorder`
+--
+
+CREATE TABLE `totalorder` (
+  `order_id` int(11) NOT NULL,
+  `account_id` int(11) DEFAULT NULL,
+  `total_price` decimal(10,2) DEFAULT NULL,
+  `wallet_id` int(11) DEFAULT NULL,
+  `status` enum('in progress','completed') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `totalorder`
+--
+
+INSERT INTO `totalorder` (`order_id`, `account_id`, `total_price`, `wallet_id`, `status`) VALUES
+(31, 3, 10000.00, NULL, 'in progress');
 
 -- --------------------------------------------------------
 
@@ -212,6 +256,15 @@ ALTER TABLE `order`
   ADD KEY `payment_id` (`payment_id`);
 
 --
+-- Indexes for table `orderitem`
+--
+ALTER TABLE `orderitem`
+  ADD PRIMARY KEY (`order_item_id`),
+  ADD KEY `menu_id` (`menu_id`),
+  ADD KEY `account_id` (`account_id`),
+  ADD KEY `order_id` (`order_id`);
+
+--
 -- Indexes for table `order_item`
 --
 ALTER TABLE `order_item`
@@ -225,6 +278,14 @@ ALTER TABLE `order_item`
 --
 ALTER TABLE `payment`
   ADD PRIMARY KEY (`wallet_id`);
+
+--
+-- Indexes for table `totalorder`
+--
+ALTER TABLE `totalorder`
+  ADD PRIMARY KEY (`order_id`),
+  ADD KEY `account_id` (`account_id`),
+  ADD KEY `wallet_id` (`wallet_id`);
 
 --
 -- Indexes for table `wallet`
@@ -247,7 +308,7 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT for table `accountuser`
 --
 ALTER TABLE `accountuser`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -268,6 +329,12 @@ ALTER TABLE `order`
   MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `orderitem`
+--
+ALTER TABLE `orderitem`
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
@@ -277,7 +344,13 @@ ALTER TABLE `order_item`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `totalorder`
+--
+ALTER TABLE `totalorder`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables
@@ -297,12 +370,27 @@ ALTER TABLE `order`
   ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`payment_id`) REFERENCES `wallet` (`payment_id`);
 
 --
+-- Constraints for table `orderitem`
+--
+ALTER TABLE `orderitem`
+  ADD CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`),
+  ADD CONSTRAINT `orderitem_ibfk_2` FOREIGN KEY (`account_id`) REFERENCES `accountuser` (`account_id`),
+  ADD CONSTRAINT `orderitem_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `totalorder` (`order_id`);
+
+--
 -- Constraints for table `order_item`
 --
 ALTER TABLE `order_item`
   ADD CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`),
   ADD CONSTRAINT `order_item_ibfk_2` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`),
   ADD CONSTRAINT `order_item_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`);
+
+--
+-- Constraints for table `totalorder`
+--
+ALTER TABLE `totalorder`
+  ADD CONSTRAINT `totalorder_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accountuser` (`account_id`),
+  ADD CONSTRAINT `totalorder_ibfk_2` FOREIGN KEY (`wallet_id`) REFERENCES `payment` (`wallet_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

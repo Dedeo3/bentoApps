@@ -7,26 +7,32 @@ Headers:
 ```json
 {
   "menu_id": 1,
-  "account_id": 1,
+  "account_id": 3,
   "start_time": "YYYY-MM-DD HH:MI:SS",
   "end_time": "YYYY-MM-DD HH:MI:SS",
   "quantity": 2,
-  "status": "in progress"
+  "status": "in progress",
+  "username": "ar",
+  "price": 5000.00
 }
 ```
+
+end_time boleh null
 
 response success:
 
 ```json
 {
-  "message": "your order is successfully",
+  "message": "Successfully ordered item",
   "data": {
     "menu_id": 1,
-    "account_id": 1,
-    "start_time": "YYYY-MM-DD HH:MI:SS",
-    "end_time": "YYYY-MM-DD HH:MI:SS",
+    "account_id": 3,
+    "start_time": "2024-12-30 10:00:00",
+    "end_time": null,
     "quantity": 2,
-    "status": "in progress"
+    "status": "in progress",
+    "username": "ar",
+    "totalPrice": 10000
   }
 }
 ```
