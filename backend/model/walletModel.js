@@ -44,4 +44,4 @@ const deposit = async (data) => {
     });
 };
 
-module.exports=deposit
+module.exports={deposit}
